@@ -1,123 +1,149 @@
-import 'dart:async';
-
 class MockApiService {
-  // Mock earnings data for different time periods
-  static const mockEarnings = {
-    "today": 1000,
-    "this_week": 7424,
-    "this_month": 25000,
-    "total": 95000,
-  };
-
-  // Mock chart data for earnings over the week
-  static const mockChartData = [
-    {"day": "Mon", "earnings": 100},
-    {"day": "Tue", "earnings": 200},
-    {"day": "Wed", "earnings": 150},
-    {"day": "Thu", "earnings": 400},
-    {"day": "Fri", "earnings": 300},
-    {"day": "Sat", "earnings": 350},
-    {"day": "Sun", "earnings": 600},
-  ];
-
-  // Mock summary data
-  static const mockSummary = {
-    "earned_this_week": 7424,
-    "orders_completed": 40,
-    "ongoing_orders": 1,
-  };
-
-  // Simulate API call to fetch earnings data
   Future<Map<String, dynamic>> getEarnings(String timePeriod) async {
-    await Future.delayed(Duration(seconds: 2)); // Simulating network delay
+    // Simulate a network request to your backend
+    await Future.delayed(Duration(seconds: 2)); // Simulate network delay
+    // Depending on the timePeriod, fetch appropriate data
+    if (timePeriod == "today") {
+      return _getTodayData();
+    } else if (timePeriod == "week") {
+      return _getThisWeekData();
+    } else if (timePeriod == "month") {
+      return _getThisMonthData();
+    } else {
+      return _getTotalData();
+    }
+  }
+
+  Future<Map<String, dynamic>> getChartData(String timePeriod) async {
+    // Simulate a network request to your backend
+    await Future.delayed(Duration(seconds: 2)); // Simulate network delay
+    if (timePeriod == "today") {
+      return _getTodayChartData();
+    } else if (timePeriod == "week") {
+      return _getThisWeekChartData();
+    } else if (timePeriod == "month") {
+      return _getThisMonthChartData();
+    } else {
+      return _getTotalChartData();
+    }
+  }
+
+  Future<Map<String, dynamic>> getSummary() async {
+    // Simulate a network request to your backend
+    await Future.delayed(Duration(seconds: 2)); // Simulate network delay
     return {
-      "status": "success",
       "data": {
-        "total_earnings": mockEarnings["total"],
-        "currency": "₹",
-        "earnings": {
-          "today": mockEarnings["today"],
-          "this_week": mockEarnings["this_week"],
-          "this_month": mockEarnings["this_month"],
-          "total": mockEarnings["total"]
-        }
+        "earned_this_week": 1200,
+        "orders_completed": 50,
+        "ongoing_orders": 5,
       }
     };
   }
 
-  // Simulate API call to fetch chart data
-  Future<Map<String, dynamic>> getChartData(String timePeriod) async {
-    await Future.delayed(Duration(seconds: 2)); // Simulating network delay
-    return {
-      "status": "success",
-      "data": {"chart_data": mockChartData}
-    };
-  }
-
-  // Simulate API call to fetch summary data
-  Future<Map<String, dynamic>> getSummary() async {
-    await Future.delayed(Duration(seconds: 2)); // Simulating network delay
-    return {"status": "success", "data": mockSummary};
-  }
-
-  // Simulate API call to fetch date range based on selected time period
   Future<Map<String, dynamic>> getDateRange(String timePeriod) async {
-    await Future.delayed(Duration(seconds: 1)); // Simulating network delay
-    DateTime today = DateTime.now();
-    String formattedRange = '';
-
-    if (timePeriod == 'week') {
-      DateTime startOfWeek = today.subtract(Duration(days: today.weekday - 1));
-      DateTime endOfWeek = startOfWeek.add(Duration(days: 6));
-      formattedRange =
-          "${startOfWeek.day} ${_getMonthName(startOfWeek.month)} ${startOfWeek.year} — ${endOfWeek.day} ${_getMonthName(endOfWeek.month)} ${endOfWeek.year}";
-    } else if (timePeriod == 'month') {
-      DateTime startOfMonth = DateTime(today.year, today.month, 1);
-      DateTime endOfMonth = DateTime(today.year, today.month + 1, 0);
-      formattedRange =
-          "${startOfMonth.day} ${_getMonthName(startOfMonth.month)} ${startOfMonth.year} — ${endOfMonth.day} ${_getMonthName(endOfMonth.month)} ${endOfMonth.year}";
-    } else if (timePeriod == 'today') {
-      formattedRange =
-          "${today.day} ${_getMonthName(today.month)} ${today.year}";
-    } else {
-      formattedRange = "All Time";
-    }
-
+    // Simulate fetching date range from backend
+    await Future.delayed(Duration(seconds: 2)); // Simulate network delay
     return {
-      "status": "success",
-      "data": {"formatted_range": formattedRange}
+      "data": {"formatted_range": _getFormattedRange(timePeriod)}
     };
   }
 
-  // Helper function to get month name
-  static String _getMonthName(int month) {
-    switch (month) {
-      case 1:
-        return "Jan";
-      case 2:
-        return "Feb";
-      case 3:
-        return "Mar";
-      case 4:
-        return "Apr";
-      case 5:
-        return "May";
-      case 6:
-        return "Jun";
-      case 7:
-        return "Jul";
-      case 8:
-        return "Aug";
-      case 9:
-        return "Sep";
-      case 10:
-        return "Oct";
-      case 11:
-        return "Nov";
-      case 12:
-        return "Dec";
-      default:
-        return "";
+  // Mock data for different time periods
+  Map<String, dynamic> _getTodayData() {
+    return {
+      "data": {
+        "earnings": 200,
+      }
+    };
+  }
+
+  Map<String, dynamic> _getThisWeekData() {
+    return {
+      "data": {
+        "earnings": 1200,
+      }
+    };
+  }
+
+  Map<String, dynamic> _getThisMonthData() {
+    return {
+      "data": {
+        "earnings": 4800,
+      }
+    };
+  }
+
+  Map<String, dynamic> _getTotalData() {
+    return {
+      "data": {
+        "earnings": 24000,
+      }
+    };
+  }
+
+  // Mock chart data for different time periods
+  Map<String, dynamic> _getTodayChartData() {
+    return {
+      "data": {
+        "chart_data": [
+          {"hour": "6 AM", "earnings": 10},
+          {"hour": "12 PM", "earnings": 30},
+          {"hour": "6 PM", "earnings": 50},
+        ]
+      }
+    };
+  }
+
+  Map<String, dynamic> _getThisWeekChartData() {
+    return {
+      "data": {
+        "chart_data": [
+          {"day": "Mon", "earnings": 150},
+          {"day": "Tue", "earnings": 200},
+          {"day": "Wed", "earnings": 180},
+          {"day": "Thu", "earnings": 220},
+          {"day": "Fri", "earnings": 190},
+          {"day": "Sat", "earnings": 210},
+          {"day": "Sun", "earnings": 250},
+        ]
+      }
+    };
+  }
+
+  Map<String, dynamic> _getThisMonthChartData() {
+    return {
+      "data": {
+        "chart_data": [
+          {"day": "1", "earnings": 50},
+          {"day": "2", "earnings": 100},
+          {"day": "3", "earnings": 150},
+          // Add more data for each day of the month
+        ]
+      }
+    };
+  }
+
+  Map<String, dynamic> _getTotalChartData() {
+    return {
+      "data": {
+        "chart_data": [
+          {"month": "January", "earnings": 500},
+          {"month": "February", "earnings": 600},
+          {"month": "March", "earnings": 700},
+        ]
+      }
+    };
+  }
+
+  String _getFormattedRange(String timePeriod) {
+    if (timePeriod == "today") {
+      return "Today";
+    } else if (timePeriod == "week") {
+      return "This Week";
+    } else if (timePeriod == "month") {
+      return "This Month";
+    } else {
+      return "Total Earnings";
     }
   }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "121101638817",
+    "project_id": "rabbiroots-delivery",
+    "storage_bucket": "rabbiroots-delivery.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121101638817:android:b65b1ff9a41f5736de24e0",
+        "android_client_info": {
+          "package_name": "om.example.rabbi_roots_delivery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXhaWu73-bMnFbDCx3uauCroR5e1F_GZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
